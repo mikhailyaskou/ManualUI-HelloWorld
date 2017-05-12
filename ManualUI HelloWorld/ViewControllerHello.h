@@ -10,8 +10,8 @@
 
 @interface ViewControllerHello : UIViewController
 
-@property (nonatomic, assign) UILabel *helloLabel;
+@property (nonatomic, retain) UILabel *helloLabel;
 
--(void)initHelloLabel;
+-(void)prepearAndSetTextInHelloLabel;
 
 @end

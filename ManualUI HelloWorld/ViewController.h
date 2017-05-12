@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-//for shake efect; ////
+//for shake efect; 
 #import <QuartzCore/QuartzCore.h>
 
 @interface ViewController : UIViewController

@@ -17,7 +17,7 @@
 @property (nonatomic, retain) UILabel *labelHelloWorld;
 @property (nonatomic, retain) UITextField *textFirstName;
 @property (nonatomic, retain) UITextField *textLastName;
-@property (nonatomic, assign) ViewControllerHello *viewHello;
+@property (nonatomic, retain) ViewControllerHello *viewHello;
 @property (nonatomic, retain) UIButton *buttonHello;
 
 @end
@@ -68,7 +68,10 @@ float const ySize = 30;
 }
 
 -(void)setViewHello:(ViewControllerHello *)viewHello{
-    _viewHello = viewHello;
+    if (_viewHello!=viewHello){
+        [_viewHello release];
+        _viewHello = [viewHello retain];
+    }
 }
 
 -(ViewControllerHello *)viewHello{
@@ -115,38 +118,35 @@ float const ySize = 30;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     self.view.backgroundColor = [UIColor blackColor];
     
-
-    float xSize = (self.view.frame.size.width-leftIndent*2);
-
-    float X_Co = (self.view.frame.size.width-xSize)/2;
-    float Y_Co = (self.view.frame.size.height-ySize)/2;
     
+    float xSize = CGRectGetWidth(self.view.frame) - leftIndent * 2;
+    float xCoordinat = (CGRectGetWidth(self.view.frame) - xSize) / 2;
+    float yCoordinat = (CGRectGetHeight(self.view.frame) - ySize) / 2;
     float yInterval = ySize;
     
     
-    _labelFirstName = [[UILabel alloc] initWithFrame:CGRectMake(leftIndent, topIndent, xSize, ySize)];
-    [self.labelFirstName setText:@"First name"];
-    [self.labelFirstName setTextColor: [UIColor orangeColor]];
+    self.labelFirstName = [[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, topIndent, xSize, ySize)] autorelease];
+    self.labelFirstName.text = @"First name";
+    self.labelFirstName.textColor = [UIColor orangeColor];
     
     
-    _textFirstName = [[UITextField alloc] initWithFrame:CGRectMake(leftIndent, (self.labelFirstName.frame.origin.y + yInterval), xSize, ySize)];
-    [self.textFirstName setBorderStyle:UITextBorderStyleRoundedRect];
+    self.textFirstName = [[[UITextField alloc] initWithFrame:CGRectMake(leftIndent, (self.labelFirstName.frame.origin.y + yInterval), xSize, ySize)]autorelease];
+    self.textFirstName.borderStyle = UITextBorderStyleRoundedRect;
     
-    _labelLastName =[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, (self.textFirstName.frame.origin.y + yInterval), xSize, ySize)];
-    [self.labelLastName setText:@"Last name"];
-    [self.labelLastName setTextColor: [UIColor orangeColor]];
+    self.labelLastName =[[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, (self.textFirstName.frame.origin.y + yInterval), xSize, ySize)]autorelease];
+    self.labelLastName.text =@"Last name";
+    self.labelLastName.textColor = [UIColor orangeColor];
     
     
-    _textLastName = [[UITextField alloc] initWithFrame:CGRectMake(leftIndent, (self.labelLastName.frame.origin.y + yInterval), xSize, ySize)];
-    [self.textLastName setBorderStyle:UITextBorderStyleRoundedRect];
+    self.textLastName = [[[UITextField alloc] initWithFrame:CGRectMake(leftIndent, (self.labelLastName.frame.origin.y + yInterval), xSize, ySize)]autorelease];
+    self.textLastName.borderStyle = UITextBorderStyleRoundedRect;
 
  
-    _buttonHello = [[UIButton alloc] init];
-    [self.buttonHello setFrame:CGRectMake(X_Co, Y_Co, xSize, ySize)];
+    self.buttonHello = [[[UIButton alloc] init] autorelease];
+    self.buttonHello.frame = CGRectMake(xCoordinat, yCoordinat, xSize, ySize);
     [self.buttonHello setTitle:@"Hello!" forState:UIControlStateNormal];
     [self.buttonHello setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     self.buttonHello.layer.cornerRadius = 5;
@@ -154,12 +154,10 @@ float const ySize = 30;
     [self.buttonHello.layer setBorderColor:[[UIColor orangeColor] CGColor]];
     [self.buttonHello addTarget: self action: @selector(buttonClicked:) forControlEvents: UIControlEventTouchUpInside];
 
-    
-    
-    _labelHelloWorld =[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, (self.buttonHello.frame.origin.y
-                                                                                    - (yInterval * 2)), xSize, ySize)];
+    self.labelHelloWorld =[[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, (self.buttonHello.frame.origin.y
+                                                                                    - (yInterval * 2)), xSize, ySize)] autorelease];
     self.labelHelloWorld.textAlignment = NSTextAlignmentCenter;
-    [self.labelHelloWorld setTextColor: [UIColor orangeColor]];
+    self.labelHelloWorld.textColor = [UIColor orangeColor];
 
     [self.view addSubview:self.labelFirstName];
     [self.view addSubview:self.textFirstName];
@@ -167,17 +165,20 @@ float const ySize = 30;
     [self.view addSubview:self.textLastName];
     [self.view addSubview:self.labelHelloWorld];
     [self.view addSubview:self.buttonHello];
-    
-    _viewHello = [[ViewControllerHello alloc] init];
 }
 
 - (IBAction) buttonClicked: (id)sender
 {
+    
+
+    
     if (self.trimedFirstName.length > 0
         && self.trimedLastName.length >0){
         
+        self.viewHello = [[[ViewControllerHello alloc] init] autorelease];
+        
         if (self.viewHello.helloLabel == nil){
-            [self.viewHello initHelloLabel];
+            [self.viewHello prepearAndSetTextInHelloLabel];
         }
         
         self.viewHello.helloLabel.text = [NSString stringWithFormat:@"Welcome %@ %@!", self.trimedFirstName, self.trimedLastName];
@@ -215,7 +216,6 @@ float const ySize = 30;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)dealloc{
@@ -225,6 +225,7 @@ float const ySize = 30;
     [_textLastName release];
     [_textFirstName release];
     [_buttonHello release];
+    [_viewHello release];
     [super dealloc];
     
 }
