@@ -68,11 +68,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-
 - (void)dealloc{
     [_helloLabel release];
     [super dealloc];

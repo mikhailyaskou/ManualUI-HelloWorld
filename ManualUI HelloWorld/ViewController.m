@@ -169,9 +169,6 @@ float const ySize = 30;
 
 - (IBAction) buttonClicked: (id)sender
 {
-    
-
-    
     if (self.trimedFirstName.length > 0
         && self.trimedLastName.length >0){
         
@@ -212,10 +209,6 @@ float const ySize = 30;
     
     return [self.textLastName.text stringByTrimmingCharactersInSet:
             [NSCharacterSet whitespaceCharacterSet]];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 - (void)dealloc{
