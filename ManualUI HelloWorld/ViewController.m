@@ -24,9 +24,9 @@
 
 @implementation ViewController
 
-float const leftIndent = 40;
-float  const topIndent = 60;
-float const ySize = 30;
+CGFloat const leftIndent = 40;
+CGFloat  const topIndent = 60;
+CGFloat const ySize = 30;
 
 @synthesize labelFirstName = _labelFirstName,
             labelLastName = _labelLastName,
@@ -35,6 +35,19 @@ float const ySize = 30;
             textLastName=_textLastName,
             viewHello = _viewHello,
             buttonHello = _buttonHello;
+
+- (void)dealloc{
+    [_labelLastName release];
+    [_labelFirstName release];
+    [_labelHelloWorld release];
+    [_textLastName release];
+    [_textFirstName release];
+    [_buttonHello release];
+    [_viewHello release];
+    [super dealloc];
+    
+}
+
 
 - (void)setLabelFirstName:(UILabel *)labelFirstName{
     
@@ -122,10 +135,11 @@ float const ySize = 30;
     self.view.backgroundColor = [UIColor blackColor];
     
     
-    float xSize = CGRectGetWidth(self.view.frame) - leftIndent * 2;
-    float xCoordinat = (CGRectGetWidth(self.view.frame) - xSize) / 2;
-    float yCoordinat = (CGRectGetHeight(self.view.frame) - ySize) / 2;
-    float yInterval = ySize;
+    CGRect frame = self.view.frame;
+    CGFloat xSize = CGRectGetWidth(frame) - leftIndent * 2;
+    CGFloat xCoordinat = (CGRectGetWidth(frame) - xSize) / 2;
+    CGFloat yCoordinat = (CGRectGetHeight(frame) - ySize) / 2;
+    CGFloat yInterval = ySize;
     
     
     self.labelFirstName = [[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, topIndent, xSize, ySize)] autorelease];
@@ -210,19 +224,6 @@ float const ySize = 30;
     return [self.textLastName.text stringByTrimmingCharactersInSet:
             [NSCharacterSet whitespaceCharacterSet]];
 }
-
-- (void)dealloc{
-    [_labelLastName release];
-    [_labelFirstName release];
-    [_labelHelloWorld release];
-    [_textLastName release];
-    [_textFirstName release];
-    [_buttonHello release];
-    [_viewHello release];
-    [super dealloc];
-    
-}
-
 
 
 @end

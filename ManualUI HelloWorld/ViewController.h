@@ -13,9 +13,9 @@
 
 @interface ViewController : UIViewController
 
-extern float const leftIndent;
-extern float const topIndent;
-extern float const ySize;
+extern CGFloat const leftIndent;
+extern CGFloat const topIndent;
+extern CGFloat const ySize;
 
 @end
 

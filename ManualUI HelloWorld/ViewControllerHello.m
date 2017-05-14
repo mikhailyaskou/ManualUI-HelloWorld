@@ -20,6 +20,11 @@
 
 @synthesize helloLabel = _helloLabel;
 
+- (void)dealloc{
+    [_helloLabel release];
+    [super dealloc];
+}
+
 - (void)setHelloLabel:(UILabel *)helloLabel{
     if (helloLabel!=_helloLabel){
         [_helloLabel release];
@@ -34,12 +39,12 @@
 - (void)prepearAndSetTextInHelloLabel{
     
 
-    float xSize = CGRectGetWidth(self.view.frame) - leftIndent *2;
-    
-    float yCoordinat = (CGRectGetHeight(self.view.frame) - ySize) / 2;
+    CGRect frame = self.view.frame;
+
+    CGFloat xSize = CGRectGetWidth(frame) - leftIndent *2;
+    CGFloat yCoordinat = (CGRectGetHeight(frame) - ySize) / 2;
     
     self.helloLabel = [[[UILabel alloc] initWithFrame:CGRectMake(leftIndent, yCoordinat, xSize, ySize)]autorelease];
-    
     self.helloLabel.textColor = [UIColor orangeColor];
     self.helloLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.helloLabel];
@@ -65,12 +70,6 @@
 - (IBAction)backButtonTapped:(id)sender {
     
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
-
-
-- (void)dealloc{
-    [_helloLabel release];
-    [super dealloc];
 }
 
 @end
